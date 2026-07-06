@@ -1,0 +1,25 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Challenge {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String
+  difficulty  String
+  submissions Submission[]
+}
+
+model Submission {
+  id          Int       @id @default(autoincrement())
+  challengeId Int
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  code        String
+  status      String
+  createdAt   DateTime  @default(now())
+}
